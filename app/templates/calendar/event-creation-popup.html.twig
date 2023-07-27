@@ -1,0 +1,72 @@
+<div class="modal fade" id="event-creation-popup" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1 class="modal-title fs-5">Create Event</h1>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+            <form action="api/v1/calendars" method="post" id="event-creation-form">
+                <div class="modal-body">
+                    <div class="mb-3 row">
+                        <label for="name" class="col-sm-2 col-form-label">Name</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Enter name">
+                            <small class="text-danger" id="nameValidationMsg">Required</small>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="email" class="col-sm-2 col-form-label">Email</label>
+                        <div class="col-sm-10">
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter email">
+                            <small class="text-danger" id="emailValidationMsg">Required</small>
+                        </div>
+                    </div>
+
+                    <div class="mb-3 row">
+                        <label for="phone" class="col-sm-2 col-form-label">Phone</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="phone" name="phone" placeholder="Enter phone">
+                        </div>
+                    </div>
+
+                    <div class="mb-3 row">
+                        <label for="color" class="col-sm-2 col-form-label">Color</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="color" name="color" placeholder="Enter event color code">
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label" for="fromTime">From</label>
+                        <div class="col-sm-10" id="fromTime">
+                            <input type="text" placeholder="Select time" class="form-control fromTime" name="fromTime">
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label" for="toTime">To</label>
+                        <div class="col-sm-10" id="toTime">
+                            <input type="text" placeholder="Select time" class="form-control toTime" name="toTime">
+                        </div>
+                    </div>
+                            
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="isAllDay">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Is all day?
+                        </label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" {{ stimulus_action('calendar', 'forceResetPopupFormState') }}>Close</button>
+                    <button type="submit" class="btn btn-primary" id="create-event-submit-btn">
+                        Save
+                        <div class="spinner-border spinner-border-sm d-none" id="is-creating-event">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

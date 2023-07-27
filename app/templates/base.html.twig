@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
+
+            <link rel="stylesheet" href="/build/app.css">
+        {% endblock %}
+
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+        {% endblock %}
+        <title>
+            {% block title %}
+                Calendar App
+            {% endblock %}
+        </title>
+    </head>
+    <body>
+        {% block header %}
+            {% include 'layout/header.html.twig' %}
+        {% endblock %}
+        
+        {% block content %}{% endblock %}
+        
+        {% block footer %}
+            {% include 'layout/footer.html.twig' %}
+        {% endblock %}
+    </body>
+</html>

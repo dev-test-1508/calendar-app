@@ -1,0 +1,23 @@
+{% extends "base.html.twig" %}
+
+{% block content %}
+    <div class="container-fluid vh-100" {{ stimulus_controller('calendar') }}>
+        <div class="row mb-3">
+            <div class="col">
+                <h1>Event Calendar</h1>
+                <button class="btn btn-light rounded-pill" {{ stimulus_action('calendar', 'moveCalendarView', 'click', ['-1']) }}>
+                    <span class="bi bi-arrow-left"></span>
+                    Prev
+                </button>
+                <button class="btn btn-light rounded-pill" {{ stimulus_action('calendar', 'moveCalendarView', 'click', ['1']) }}>
+                    Next
+                    <span class="bi bi-arrow-right"></span>
+                </button>
+            </div>
+        </div>
+        
+        <div id="calendar" class="h-100"></div>
+
+        {% include 'calendar/event-creation-popup.html.twig' %}
+    </div>
+{% endblock %}
