@@ -6,15 +6,13 @@
 
 **Project setup**
 
-1. Copy .env.example to .env
-
-2. At the root of the project, run the following command to pull docker images and set up containers
+1. At the root of the project, run the following command to pull docker images and set up containers
 
 ````
 docker-compose up -d --build
 ````
 
-3. Install project's dependencies:
+2. Install project's dependencies:
 
 ````  
 cd app
@@ -22,7 +20,7 @@ composer install
 npm i
 ````
 
-4. Set up DB and migrations:
+3. Set up DB and migrations:
 
 - List all running containers
 
@@ -30,23 +28,23 @@ npm i
 docker ps -a
 ````
 
-- Find the container id and replace the placeholder with the found value   
+- Find the container id of the calendar-app-php and replace the placeholder below with the found container id:   
 
 ````
 docker exec -it {container_id} bash
 ````
 
-- Once inside the container, run the following command:
+- Once inside the container, run the following command to migrate DB schema:
 
 ````
 ./bin/console doctrine:migrations:migrate
 ````
 
-5. Run the project:
+4. Run the project:
 
 ````
 cd app
 npm run dev
 ````
 
-6. Once done, go to the following URL to use the application: http://localhost:8082
+5. Once done, go to the following URL to use the application: http://localhost:8082

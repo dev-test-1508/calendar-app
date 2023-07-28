@@ -28,7 +28,7 @@ export default class extends Controller {
             time: function(schedule) {
                 const { title, color = '', start } = schedule;
 
-                return `<span class="fw-bold" style="color: ${color}">${start} ${title} - Booked</span>`;
+                return `<span class="fw-bold" style="color: ${color}">${title} - Booked</span>`;
             }
         },
         month: {
