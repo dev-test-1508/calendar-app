@@ -22,16 +22,11 @@ npm i
 
 3. Set up DB and migrations:
 
-- List all running containers
+
+- Go inside php container:   
 
 ````
-docker ps -a
-````
-
-- Find the container id of the calendar-app-php and replace the placeholder below with the found container id:   
-
-````
-docker exec -it {container_id} bash
+docker exec -it $(docker ps -aqf "name=calendar-app-php") bash
 ````
 
 - Once inside the container, run the following command to migrate DB schema:

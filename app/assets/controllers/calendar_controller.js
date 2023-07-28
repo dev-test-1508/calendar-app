@@ -45,7 +45,7 @@ export default class extends Controller {
 
     onDateTimeClick() {
         this.calendar.on('selectDateTime', (eventObj) => {
-            this.eventCreationPopup = new Modal($('#event-creation-popup'));
+            this.eventCreationPopup = new Modal($('#event-popup'));
 
             this.selectedDate = eventObj.start;
             this.eventCreationPopup.show();
@@ -57,9 +57,9 @@ export default class extends Controller {
             const selectedEvent = this.allEvents.find(s => s.id === event.id);
 
             if (selectedEvent) {
-                this.eventCreationPopup = new Modal($('#event-creation-popup'));
+                this.eventCreationPopup = new Modal($('#event-popup'));
                 this.selectedEvent = selectedEvent;
-                $('#event-creation-popup input').each(function() {
+                $('#event-popup input').each(function() {
                     let value = selectedEvent[this.name];
                     if (this.name === 'fromTime') {
                         value = moment(selectedEvent.from_time?.date).format("hh:mm a");
@@ -75,7 +75,7 @@ export default class extends Controller {
                     $(this).val(value); 
                     $(this).prop('disabled', true);
                 });
-                $('#event-creation-popup button[type="submit"]').prop('disabled', true);
+                $('#event-popup button[type="submit"]').prop('disabled', true);
 
                 this.eventCreationPopup.show();
             }
@@ -84,10 +84,10 @@ export default class extends Controller {
 
     forceResetPopupFormState() {
         if (this.selectedEvent) {
-            const formCreationSelector = $('#event-creation-form');
+            const formCreationSelector = $('#event-popup-form');
             formCreationSelector.trigger('reset');
-            $('#event-creation-popup input').removeAttr('disabled');
-            $('#event-creation-popup button[type="submit"]').removeAttr('disabled');
+            $('#event-popup input').removeAttr('disabled');
+            $('#event-popup button[type="submit"]').removeAttr('disabled');
             this.selectedEvent = null;
         }
     }
@@ -102,7 +102,7 @@ export default class extends Controller {
     }
 
     createEventSchedule() {
-        const formCreationSelector = $('#event-creation-form');
+        const formCreationSelector = $('#event-popup-form');
         const isEventCreatingSelector = $('#is-creating-event');
         const formCreationSubmitBtnSelector = $('#create-event-submit-btn');
 
@@ -124,12 +124,7 @@ export default class extends Controller {
             try {
                 $.post(apiPath, jsonData, res => {
                     if (res.success) {
-                        this.calendar.createEvents([
-                            {
-                                ...jsonData,
-                                id: this.allEvents.length
-                            }
-                        ]);
+                        this.setEventSchedules(true);
                         formCreationSelector.trigger('reset');
                     }
                     formCreationSubmitBtnSelector.removeAttr('disabled');
@@ -152,7 +147,7 @@ export default class extends Controller {
         });
     }
 
-    setEventSchedules() {
+    setEventSchedules(rerender = false) {
         $.get(`api/v1/calendars`, res => {
             this.allEvents = res.events;
             this.calendar.createEvents(this.allEvents.map(event => ({
@@ -163,6 +158,10 @@ export default class extends Controller {
                 end: event.to_time?.date,
                 color: event.color
             })));
+
+            if (rerender) {
+                this.calendar.render();
+            }
         });
     }
 
@@ -194,7 +193,7 @@ export default class extends Controller {
     }
 
     validateName() {
-        const nameValue = $('#event-creation-popup input[name="name"]').val();
+        const nameValue = $('#event-popup-form input[name="name"]').val();
         if (!nameValue.length) {
             $("#nameValidationMsg").show();
             return false;
@@ -211,7 +210,7 @@ export default class extends Controller {
     }
 
     validateEmail() {
-        const emailValue = $('#event-creation-popup input[name="email"]').val();
+        const emailValue = $('#event-popup-form input[name="email"]').val();
         const regex = /^([_\-\.0-9a-zA-Z]+)@([_\-\.0-9a-zA-Z]+)\.([a-zA-Z]){2,7}$/;
 
         if (!emailValue.length) {
@@ -231,11 +230,11 @@ export default class extends Controller {
 
     connect() {
         $("#nameValidationMsg").hide();
-        $('#event-creation-popup input[name="name"]').keyup(() => {
+        $('#event-popup-form input[name="name"]').keyup(() => {
             this.validateName();
         });
         $("#emailValidationMsg").hide();
-        $('#event-creation-popup input[name="email"]').keyup(() => {
+        $('#event-popup-form input[name="email"]').keyup(() => {
             this.validateEmail();
         });
         this.setUpTimePicker();
