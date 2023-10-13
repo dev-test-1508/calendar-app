@@ -9,7 +9,7 @@
 1. At the root of the project, run the following command to pull docker images and set up containers
 
 ````
-docker-compose up -d --build
+docker compose up -d --build
 ````
 
 2. Install project's dependencies:
